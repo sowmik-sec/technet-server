@@ -35,7 +35,7 @@ const run = async () => {
     app.get("/product/:id", async (req, res) => {
       const id = req.params.id;
 
-      const result = await productCollection.findOne({ _id: ObjectId(id) });
+      const result = await productCollection.findOne({ _id: new ObjectId(id) });
       console.log(result);
       res.send(result);
     });
@@ -43,7 +43,9 @@ const run = async () => {
     app.delete("/product/:id", async (req, res) => {
       const id = req.params.id;
 
-      const result = await productCollection.deleteOne({ _id: ObjectId(id) });
+      const result = await productCollection.deleteOne({
+        _id: new ObjectId(id),
+      });
       console.log(result);
       res.send(result);
     });
@@ -56,7 +58,7 @@ const run = async () => {
       console.log(comment);
 
       const result = await productCollection.updateOne(
-        { _id: ObjectId(productId) },
+        { _id: new ObjectId(productId) },
         { $push: { comments: comment } }
       );
 
@@ -76,7 +78,7 @@ const run = async () => {
       const productId = req.params.id;
 
       const result = await productCollection.findOne(
-        { _id: ObjectId(productId) },
+        { _id: new ObjectId(productId) },
         { projection: { _id: 0, comments: 1 } }
       );
 
